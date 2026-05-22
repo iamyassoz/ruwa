@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YasTiramisu — Handcrafted Italian Classics</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5ede0;
+    --dark-espresso: #1a0f08;
+    --espresso: #2d1a0e;
+    --coffee: #5c3317;
+    --caramel: #b5722b;
+    --gold: #d4a843;
+    --mascarpone: #faf3e8;
+    --dust: #e8d5bc;
+    --shadow: rgba(26,15,8,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--dark-espresso);
+    color: var(--cream);
+    font-family: 'Cormorant Garamond', serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform 0.1s ease, width 0.3s, height 0.3s, background 0.3s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: transform 0.15s ease, opacity 0.3s;
+    opacity: 0.5;
+    mix-blend-mode: screen;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 900;
+    padding: 28px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(26,15,8,0.9), transparent);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0.04em;
+    color: var(--gold);
+  }
+  .nav-links {
+    display: flex; gap: 48px; list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--dust);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 10vw;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 70% 50%, #3d1e08 0%, #1a0f08 60%, #0d0705 100%);
+  }
+
+  /* Floating coffee circles */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+    animation: drift 12s ease-in-out infinite alternate;
+  }
+  .orb-1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(92,51,23,0.5), transparent 70%);
+    right: 5%; top: 10%;
+    animation-duration: 14s;
+  }
+  .orb-2 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(181,114,43,0.2), transparent 70%);
+    right: 30%; top: 40%;
+    animation-duration: 10s; animation-delay: -4s;
+  }
+  .orb-3 {
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(212,168,67,0.15), transparent 70%);
+    right: 15%; bottom: 15%;
+    animation-duration: 16s; animation-delay: -8s;
+  }
+  @keyframes drift {
+    from { transform: translate(0,0) scale(1); }
+    to   { transform: translate(30px, -40px) scale(1.08); }
+  }
+
+  /* Decorative lines */
+  .hero-line {
+    position: absolute;
+    background: var(--gold);
+    opacity: 0.12;
+  }
+  .hero-line-h {
+    width: 100%; height: 1px;
+    top: 50%;
+  }
+  .hero-line-v {
+    width: 1px; height: 100%;
+    left: 60%;
+  }
+
+  /* Hero text */
+  .hero-eyebrow {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 28px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    animation: fadeUp 1s ease both;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 48px; height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4.5rem, 10vw, 10rem);
+    font-weight: 900;
+    line-height: 0.9;
+    color: var(--mascarpone);
+    position: relative;
+    animation: fadeUp 1s 0.15s ease both;
+  }
+  .hero-title .italic {
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-desc {
+    margin-top: 36px;
+    max-width: 440px;
+    font-size: 1.2rem;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.8;
+    color: var(--dust);
+    opacity: 0.85;
+    animation: fadeUp 1s 0.3s ease both;
+  }
+
+  .hero-cta {
+    margin-top: 52px;
+    display: flex; gap: 24px; align-items: center;
+    animation: fadeUp 1s 0.45s ease both;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--dark-espresso);
+    padding: 16px 44px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 400;
+    transition: background 0.3s, transform 0.3s;
+    display: inline-block;
+  }
+  .btn-primary:hover {
+    background: var(--caramel);
+    transform: translateY(-2px);
+  }
+  .btn-secondary {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--dust);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(245,237,224,0.3);
+    padding-bottom: 4px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .btn-secondary:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* Scroll indicator */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 10vw;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    animation: fadeUp 1s 0.6s ease both;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+  .scroll-text {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    background: var(--gold);
+    padding: 14px 0;
+    overflow: hidden;
+    display: flex;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--dark-espresso);
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    gap: 48px;
+  }
+  .marquee-item::after {
+    content: '✦';
+    font-size: 0.5rem;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── ABOUT STRIP ── */
+  .about {
+    background: var(--espresso);
+    padding: 120px 10vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .about-label::before {
+    content: ''; display: block;
+    width: 32px; height: 1px; background: var(--gold);
+  }
+  .about-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.2;
+    color: var(--mascarpone);
+  }
+  .about-body {
+    font-size: 1.1rem;
+    font-weight: 300;
+    line-height: 2;
+    color: var(--dust);
+    opacity: 0.8;
+  }
+  .about-body p + p { margin-top: 20px; }
+
+  .about-visual {
+    position: relative;
+    height: 460px;
+  }
+  .about-card {
+    position: absolute;
+    background: var(--coffee);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .about-card-main {
+    width: 72%; height: 85%;
+    right: 0; top: 0;
+    background: linear-gradient(135deg, #3d2010, #5c3317);
+  }
+  .about-card-accent {
+    width: 45%; height: 50%;
+    left: 0; bottom: 0;
+    background: var(--dark-espresso);
+    border: 1px solid rgba(212,168,67,0.2);
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px;
+  }
+  .card-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .card-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--dust);
+    opacity: 0.7;
+  }
+  .about-card-main-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: rgba(255,255,255,0.04);
+    text-align: center;
+    line-height: 1;
+  }
+
+  /* ── MENU ── */
+  .menu {
+    background: var(--dark-espresso);
+    padding: 120px 10vw;
+  }
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 72px;
+  }
+  .section-label {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-label::before {
+    content: ''; display: block;
+    width: 32px; height: 1px; background: var(--gold);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 4vw, 3.8rem);
+    font-weight: 700;
+    color: var(--mascarpone);
+    line-height: 1.1;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .menu-item {
+    background: var(--espresso);
+    padding: 44px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s ease;
+    cursor: none;
+  }
+  .menu-item::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    transform-origin: left;
+  }
+  .menu-item:hover::before { transform: scaleX(1); }
+  .menu-item:hover { transform: translateY(-4px); }
+
+  .menu-item-num {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--caramel);
+    margin-bottom: 20px;
+  }
+  .menu-item-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--mascarpone);
+    margin-bottom: 4px;
+  }
+  .menu-item-sub {
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--gold);
+    margin-bottom: 18px;
+  }
+  .menu-item-desc {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--dust);
+    opacity: 0.7;
+    margin-bottom: 28px;
+  }
+  .menu-item-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--gold);
+  }
+  .menu-item.featured {
+    background: linear-gradient(135deg, var(--coffee), #3d2010);
+    grid-row: span 2;
+  }
+  .menu-item.featured .menu-item-name { font-size: 2rem; }
+  .menu-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--dark-espresso);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    margin-bottom: 20px;
+  }
+
+  /* ── PROCESS ── */
+  .process {
+    background: var(--mascarpone);
+    color: var(--dark-espresso);
+    padding: 120px 10vw;
+  }
+  .process .section-label { color: var(--coffee); }
+  .process .section-label::before { background: var(--coffee); }
+  .process .section-title { color: var(--dark-espresso); }
+  .process .section-title em { color: var(--coffee); }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 72px;
+  }
+  .step {
+    background: white;
+    padding: 52px 32px;
+    position: relative;
+    border-top: 3px solid transparent;
+    transition: border-color 0.3s;
+  }
+  .step:hover { border-color: var(--coffee); }
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--dust);
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+  .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--dark-espresso);
+    margin-bottom: 14px;
+  }
+  .step-desc {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--coffee);
+    opacity: 0.8;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials {
+    background: var(--espresso);
+    padding: 120px 10vw;
+    position: relative;
+    overflow: hidden;
+  }
+  .testimonials::before {
+    content: '"';
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-size: 40rem;
+    font-weight: 900;
+    color: rgba(255,255,255,0.015);
+    top: -10%;
+    left: -5%;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 72px;
+  }
+  .testi-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(212,168,67,0.15);
+    padding: 44px;
+    position: relative;
+  }
+  .testi-stars {
+    color: var(--gold);
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    margin-bottom: 24px;
+  }
+  .testi-quote {
+    font-size: 1.15rem;
+    font-style: italic;
+    line-height: 1.9;
+    color: var(--dust);
+    opacity: 0.85;
+    margin-bottom: 32px;
+  }
+  .testi-author {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ── HOURS & LOCATION ── */
+  .info {
+    background: var(--dark-espresso);
+    padding: 120px 10vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .info-block + .info-block {
+    border-left: 1px solid rgba(212,168,67,0.15);
+    padding-left: 80px;
+  }
+  .hours-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(245,237,224,0.06);
+  }
+  .hours-day {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dust);
+    opacity: 0.6;
+  }
+  .hours-time {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--dust);
+  }
+  .info-address {
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 2;
+    color: var(--dust);
+    opacity: 0.8;
+    margin-top: 16px;
+  }
+  .info-address strong {
+    font-style: normal;
+    font-weight: 400;
+    color: var(--gold);
+    display: block;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .map-placeholder {
+    margin-top: 28px;
+    height: 200px;
+    background: var(--espresso);
+    border: 1px solid rgba(212,168,67,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--caramel);
+    opacity: 0.6;
+  }
+
+  /* ── NEWSLETTER ── */
+  .newsletter {
+    background: var(--coffee);
+    padding: 100px 10vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+  .nl-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--mascarpone);
+    max-width: 440px;
+    line-height: 1.3;
+  }
+  .nl-form {
+    display: flex;
+    gap: 0;
+    flex: 1;
+    min-width: 300px;
+    max-width: 480px;
+  }
+  .nl-input {
+    flex: 1;
+    background: rgba(26,15,8,0.4);
+    border: 1px solid rgba(245,237,224,0.2);
+    border-right: none;
+    color: var(--cream);
+    padding: 16px 24px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .nl-input::placeholder { color: rgba(245,237,224,0.4); }
+  .nl-input:focus { border-color: var(--gold); }
+  .nl-btn {
+    background: var(--dark-espresso);
+    color: var(--gold);
+    border: 1px solid var(--dark-espresso);
+    padding: 16px 32px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: background 0.3s, color 0.3s;
+  }
+  .nl-btn:hover {
+    background: var(--gold);
+    color: var(--dark-espresso);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark-espresso);
+    border-top: 1px solid rgba(212,168,67,0.12);
+    padding: 60px 10vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-style: italic;
+    color: var(--gold);
+  }
+  .footer-links {
+    display: flex; gap: 40px; list-style: none;
+  }
+  .footer-links a {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--dust);
+    text-decoration: none;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+  }
+  .footer-links a:hover { opacity: 1; }
+  .footer-copy {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--dust);
+    opacity: 0.3;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    nav { padding: 24px 28px; }
+    .nav-links { display: none; }
+    .hero { padding: 0 8vw; }
+    .about, .info { grid-template-columns: 1fr; gap: 48px; }
+    .info-block + .info-block { border-left: none; padding-left: 0; border-top: 1px solid rgba(212,168,67,0.15); padding-top: 48px; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .menu-item.featured { grid-row: span 1; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .about { padding: 80px 8vw; }
+    .menu, .process, .testimonials, .info { padding: 80px 8vw; }
+    .newsletter { padding: 80px 8vw; }
+    footer { flex-direction: column; align-items: flex-start; padding: 48px 8vw; }
+  }
+  @media (max-width: 600px) {
+    .steps { grid-template-columns: 1fr; }
+    .hero-title { font-size: clamp(3.5rem, 14vw, 6rem); }
+    .nl-form { flex-direction: column; }
+    .nl-input { border-right: 1px solid rgba(245,237,224,0.2); border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Yas Tiramisu</div>
+  <ul class="nav-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#process">Our Craft</a></li>
+    <li><a href="#info">Visit Us</a></li>
+    <li><a href="#newsletter">Reservations</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="hero-line hero-line-h"></div>
+  <div class="hero-line hero-line-v"></div>
+
+  <div style="position:relative; z-index:2;">
+    <p class="hero-eyebrow">Est. 2024 &nbsp;·&nbsp; Handcrafted in Milan's Tradition</p>
+    <h1 class="hero-title">
+      Yas<br>
+      <span class="italic">Tiramisu</span>
+    </h1>
+    <p class="hero-desc">
+      Where every layer tells a story — espresso-soaked, mascarpone-kissed, dusted with the finest cocoa.
+    </p>
+    <div class="hero-cta">
+      <a href="#menu" class="btn-primary">Explore Menu</a>
+      <a href="#process" class="btn-secondary">Our Story</a>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Classic Tiramisu</span>
+    <span class="marquee-item">Pistachio Dream</span>
+    <span class="marquee-item">Salted Caramel</span>
+    <span class="marquee-item">Seasonal Specials</span>
+    <span class="marquee-item">Cold Brew Espresso</span>
+    <span class="marquee-item">Artisan Dolci</span>
+    <span class="marquee-item">Classic Tiramisu</span>
+    <span class="marquee-item">Pistachio Dream</span>
+    <span class="marquee-item">Salted Caramel</span>
+    <span class="marquee-item">Seasonal Specials</span>
+    <span class="marquee-item">Cold Brew Espresso</span>
+    <span class="marquee-item">Artisan Dolci</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div>
+    <p class="about-label">Who We Are</p>
+    <h2 class="about-title">A Labor of<br>Love & Layers</h2>
+    <div class="about-body" style="margin-top: 32px;">
+      <p>YasTiramisu began as a single obsession: to craft the most honest, beautiful tiramisu outside of Italy. Every recipe we serve is the result of months of testing, tasting, and refining.</p>
+      <p>We source our Savoiardi from a small family bakery in Venice, our espresso from a single-origin roaster in Turin, and our mascarpone from a farm in Lombardy. No shortcuts. Only passion.</p>
+    </div>
+  </div>
+  <div class="about-visual">
+    <div class="about-card about-card-main">
+      <div class="about-card-main-text">TIRAMI<br>SÙ</div>
+    </div>
+    <div class="about-card about-card-accent">
+      <div class="card-number">14+</div>
+      <div class="card-label">Unique Flavors</div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="section-header">
+    <div>
+      <p class="section-label">What We Offer</p>
+      <h2 class="section-title">The <em>Menu</em></h2>
+    </div>
+  </div>
+  <div class="menu-grid">
+
+    <div class="menu-item featured">
+      <span class="menu-badge">Signature</span>
+      <p class="menu-item-num">No. 01</p>
+      <div class="menu-item-name">Il Classico</div>
+      <div class="menu-item-sub">The Original</div>
+      <p class="menu-item-desc">Our founding recipe. Savoiardi soaked in double-shot espresso, layered with airy mascarpone cream, finished with Belgian cocoa. A quiet masterpiece.</p>
+      <div class="menu-item-price">$12</div>
+    </div>
+
+    <div class="menu-item">
+      <p class="menu-item-num">No. 02</p>
+      <div class="menu-item-name">Pistacchio</div>
+      <div class="menu-item-sub">Sicilian Dream</div>
+      <p class="menu-item-desc">Roasted Bronte pistachio cream folded through mascarpone, espresso-kissed base.</p>
+      <div class="menu-item-price">$14</div>
+    </div>
+
+    <div class="menu-item">
+      <p class="menu-item-num">No. 03</p>
+      <div class="menu-item-name">Salted Caramel</div>
+      <div class="menu-item-sub">Dolce & Salato</div>
+      <p class="menu-item-desc">House-made dark caramel ribbon, fleur de sel, and espresso-soaked ladyfingers.</p>
+      <div class="menu-item-price">$13</div>
+    </div>
+
+    <div class="menu-item">
+      <p class="menu-item-num">No. 04</p>
+      <div class="menu-item-name">Nocciola</div>
+      <div class="menu-item-sub">Hazelnut Gianduja</div>
+      <p class="menu-item-desc">Piedmont hazelnuts, dark chocolate, and a whisper of Frangelico.</p>
+      <div class="menu-item-price">$13</div>
+    </div>
+
+    <div class="menu-item">
+      <p class="menu-item-num">No. 05</p>
+      <div class="menu-item-name">Limoncello</div>
+      <div class="menu-item-sub">Amalfi Coast</div>
+      <p class="menu-item-desc">Bright and citrusy — Amalfi lemon curd, limoncello-soaked sponge, vanilla cream.</p>
+      <div class="menu-item-price">$14</div>
+    </div>
+
+    <div class="menu-item">
+      <p class="menu-item-num">No. 06</p>
+      <div class="menu-item-name">Vegan Classico</div>
+      <div class="menu-item-sub">Plant-Based</div>
+      <p class="menu-item-desc">Cashew mascarpone, oat savoiardi, same soul — zero compromise on taste.</p>
+      <div class="menu-item-price">$14</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="section-header">
+    <div>
+      <p class="section-label" style="color:var(--coffee);">How It's Made</p>
+      <h2 class="section-title" style="color:var(--dark-espresso);">The <em style="color:var(--coffee);">Craft</em></h2>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">The Espresso</div>
+      <p class="step-desc">We pull fresh shots daily from our Turin single-origin blend. The soak time is timed to the second — enough depth, never bitter.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">The Cream</div>
+      <p class="step-desc">Lombard mascarpone, free-range egg yolks, and cane sugar whipped to a ribbon stage. Light as cloud, rich as velvet.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">The Layers</div>
+      <p class="step-desc">Each savoiardo is dipped by hand. Each layer is piped with care. No machines, no rushing. Only rhythm and intention.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">The Rest</div>
+      <p class="step-desc">24 hours minimum in the cold. The flavors marry slowly. We never serve a tiramisu that hasn't had its time to dream.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-header">
+    <div>
+      <p class="section-label">What Guests Say</p>
+      <h2 class="section-title">Moments of <em>Bliss</em></h2>
+    </div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★ ★ ★ ★ ★</div>
+      <p class="testi-quote">"I've had tiramisu across seven cities in Italy, and Yas Tiramisu holds its own. The pistacchio is unlike anything I've tasted — pure joy in a glass."</p>
+      <p class="testi-author">— Sofia R., Florence</p>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★ ★ ★ ★ ★</div>
+      <p class="testi-quote">"The perfect balance of bitter and sweet. Their Il Classico transported me right back to a small café near the Rialto. Exceptional."</p>
+      <p class="testi-author">— James W., New York</p>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★ ★ ★ ★ ★</div>
+      <p class="testi-quote">"Ordered the vegan version with zero expectations and was completely blown away. How is this so creamy? Became a weekly ritual."</p>
+      <p class="testi-author">— Amara T., London</p>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★ ★ ★ ★ ★</div>
+      <p class="testi-quote">"The Limoncello tiramisu is the most elegant dessert I've eaten this year. Light, refreshing, perfectly balanced. A revelation."</p>
+      <p class="testi-author">— Lena M., Berlin</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS & LOCATION -->
+<section class="info" id="info">
+  <div class="info-block">
+    <p class="section-label">When To Find Us</p>
+    <h2 class="section-title" style="font-size: 2.2rem; margin-bottom: 40px;">Hours</h2>
+    <div class="hours-row"><span class="hours-day">Monday</span><span class="hours-time">Closed</span></div>
+    <div class="hours-row"><span class="hours-day">Tuesday — Thursday</span><span class="hours-time">10 am – 8 pm</span></div>
+    <div class="hours-row"><span class="hours-day">Friday</span><span class="hours-time">10 am – 10 pm</span></div>
+    <div class="hours-row"><span class="hours-day">Saturday</span><span class="hours-time">9 am – 10 pm</span></div>
+    <div class="hours-row"><span class="hours-day">Sunday</span><span class="hours-time">9 am – 7 pm</span></div>
+  </div>
+  <div class="info-block">
+    <p class="section-label">Where To Find Us</p>
+    <h2 class="section-title" style="font-size: 2.2rem; margin-bottom: 28px;">Location</h2>
+    <div class="info-address">
+      <strong>Address</strong>
+      24 Via Dolce,<br>
+      Ground Floor, Heritage Quarter<br>
+      <br>
+      <strong style="color:var(--gold)">Contact</strong>
+      hello@yastiramisu.com<br>
+      +1 (555) 842 7163
+    </div>
+    <div class="map-placeholder">Map · Coming Soon</div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter" id="newsletter">
+  <p class="nl-text">Seasonal menus, secret tastings & stories from our kitchen.</p>
+  <div class="nl-form">
+    <input class="nl-input" type="email" placeholder="Your email address…" />
+    <button class="nl-btn">Subscribe</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Yas Tiramisu</div>
+  <ul class="footer-links">
+    <li><a href="#">Menu</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Visit</a></li>
+    <li><a href="#">Instagram</a></li>
+    <li><a href="#">Privacy</a></li>
+  </ul>
+  <p class="footer-copy">© 2024 YasTiramisu. All dolci reserved.</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('a, button, .menu-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px'; cursor.style.height = '20px';
+      ring.style.opacity = '1'; ring.style.transform = 'translate(-50%,-50%) scale(1.5)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '10px'; cursor.style.height = '10px';
+      ring.style.opacity = '0.5'; ring.style.transform = 'translate(-50%,-50%) scale(1)';
+    });
+  });
+
+  // Intersection Observer for fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.menu-item, .step, .testi-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
